@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function AdminSignup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,54 +34,106 @@ export default function AdminSignup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/admin/register",
+        `${API_URL}/api/auth/admin/register`,
         { username, password }
       );
       setSuccess(res.data.message);
       setTimeout(() => {
-        navigate("/admin-login");
+        navigate("/login");
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed");
+      if (err.response) {
+        setError(err.response.data.message || "Signup failed");
+      } else if (err.request) {
+        setError("Cannot connect to server. Please make sure the backend is running.");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h2>Admin Sign Up</h2>
-      <div style={{ marginTop: "20px" }}>
-        <input 
-          placeholder="Username" 
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          style={{ padding: "10px", margin: "10px", width: "250px" }}
-        />
-        <br />
-        <input 
-          type="password" 
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)} 
-          style={{ padding: "10px", margin: "10px", width: "250px" }}
-        />
-        <br />
-        <input 
-          type="password" 
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={e => setConfirmPassword(e.target.value)} 
-          style={{ padding: "10px", margin: "10px", width: "250px" }}
-        />
-        <br />
-        <button onClick={handleSignup} style={{ padding: "10px 30px", margin: "10px", cursor: "pointer" }}>
-          Sign Up
-        </button>
-        <br />
-        <Link to="/admin-login" style={{ fontSize: "14px" }}>
-          Already have an account? Login here
-        </Link>
-        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-        {success && <p style={{ color: "green", marginTop: "10px" }}>{success}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
+      {/* Signup Card */}
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-4">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="text-5xl mb-3">👤</div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            Admin Sign Up
+          </h2>
+          <p className="text-gray-600 text-sm">Create your admin account</p>
+        </div>
+        
+        {/* Form */}
+        <div className="space-y-5">
+          {/* Username Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
+            <input 
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              placeholder="Choose a username" 
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+            />
+          </div>
+          
+          {/* Password Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+            <input 
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              type="password" 
+              placeholder="Choose a password"
+              value={password}
+              onChange={e => setPassword(e.target.value)} 
+            />
+          </div>
+
+          {/* Confirm Password Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm Password</label>
+            <input 
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              type="password" 
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)} 
+            />
+          </div>
+          
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+              {success}
+            </div>
+          )}
+          
+          {/* Signup Button */}
+          <button 
+            onClick={handleSignup} 
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition"
+          >
+            Sign Up
+          </button>
+          
+          {/* Footer */}
+          <div className="text-center pt-2">
+            <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link to="/login" className="text-indigo-600 font-medium hover:text-indigo-700 hover:underline">
+                Login here
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

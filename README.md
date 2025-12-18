@@ -4,7 +4,9 @@ A full-stack Library Management System built with MongoDB, Express.js, React, an
 
 ## 🚀 Features
 
-- ✅ **Student Authentication**
+
+- 
+ **Student Authentication**
   - Student Login
   - Student Registration with full details (Name, Roll No, Department, Email)
   

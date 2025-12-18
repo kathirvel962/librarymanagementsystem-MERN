@@ -6,7 +6,7 @@ const Admin = require("../models/Admin");
 const router = express.Router();
 
 /* ADMIN REGISTRATION */
-router.post("/api/auth/admin/register", async (req, res) => {
+router.post("/admin/register", async (req, res) => {
   try {
     const { username, password } = req.body;
     
@@ -30,7 +30,7 @@ router.post("/api/auth/admin/register", async (req, res) => {
 });
 
 /* STUDENT REGISTRATION */
-router.post("/api/auth/student/register", async (req, res) => {
+router.post("/student/register", async (req, res) => {
   try {
     const { name, rollNo, department, email, password } = req.body;
     
@@ -57,7 +57,7 @@ router.post("/api/auth/student/register", async (req, res) => {
 });
 
 /* STUDENT LOGIN */
-router.post("/api/auth/student/login", async (req, res) => {
+router.post("/student/login", async (req, res) => {
   const { email, password } = req.body;
   const student = await Student.findOne({ email });
   if (!student) return res.status(400).json({ message: "Student not found" });
@@ -75,7 +75,7 @@ router.post("/api/auth/student/login", async (req, res) => {
 });
 
 /* ADMIN LOGIN */
-router.post("/api/auth/admin/login", async (req, res) => {
+router.post("/admin/login", async (req, res) => {
   const { username, password } = req.body;
   const admin = await Admin.findOne({ username });
   if (!admin) return res.status(400).json({ message: "Admin not found" });

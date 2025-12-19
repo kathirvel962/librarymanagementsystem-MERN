@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LoginSelection from "./pages/LoginSelection";
@@ -10,7 +11,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login-selection" replace />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login-selection" element={<LoginSelection />} />
         <Route path="/signup-selection" element={<RoleSelection />} />
         <Route path="/login" element={<Login />} />
@@ -25,6 +27,10 @@ function App() {
         <Route path="/admin-login" element={<Navigate to="/login?role=admin" replace />} />
         <Route path="/student-signup" element={<Navigate to="/signup?role=student" replace />} />
         <Route path="/admin-signup" element={<Navigate to="/signup?role=admin" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
       </Routes>
     </BrowserRouter>
   );

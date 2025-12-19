@@ -91,5 +91,47 @@ router.post("/admin/login", async (req, res) => {
 
   res.json({ token, role: "admin" });
 });
+/* GET ALL STUDENTS */
+router.get("/students", async (req, res) => {
+  try {
+    const students = await Student.find().select("-password"); // Exclude password
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/* GET SINGLE STUDENT BY ID */
+router.get("/student/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id).select("-password");
+    if (!student) return res.status(404).json({ message: "Student not found" });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/* GET STUDENT BY EMAIL */
+router.get("/student/email/:email", async (req, res) => {
+  try {
+    const student = await Student.findOne({ email: req.params.email }).select("-password");
+    if (!student) return res.status(404).json({ message: "Student not found" });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/* GET STUDENT BY ROLL NUMBER */
+router.get("/student/roll/:rollNo", async (req, res) => {
+  try {
+    const student = await Student.findOne({ rollNo: req.params.rollNo }).select("-password");
+    if (!student) return res.status(404).json({ message: "Student not found" });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;

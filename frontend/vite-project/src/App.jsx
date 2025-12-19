@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LoginSelection from "./pages/LoginSelection";
 import RoleSelection from "./pages/RoleSelection";
+import AdminDashboard from "./pages/AdminDashboard";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
         <Route path="/signup-selection" element={<RoleSelection />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        
+        {/* Dashboard routes */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/dashboard" element={<AdminDashboard />} />
         
         {/* Legacy routes for backward compatibility */}
         <Route path="/student-login" element={<Navigate to="/login?role=student" replace />} />

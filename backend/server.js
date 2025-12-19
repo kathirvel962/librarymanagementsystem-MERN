@@ -10,6 +10,9 @@ app.use(express.json());
 // Authentication routes
 app.use("/api/auth", require("./routes/authRoutes"));
 
+// Book routes
+app.use("/api/books", require("./routes/bookRoutes"));
+
 // Root route for health check
 app.get("/", (req, res) => {
   res.json({ message: "Library Management System API is running" });

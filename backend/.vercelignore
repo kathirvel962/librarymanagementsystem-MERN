@@ -1,6 +1,0 @@
-# Vercel Backend Deployment
-
-*.env
-node_modules
-.env.local
-.env.*.local

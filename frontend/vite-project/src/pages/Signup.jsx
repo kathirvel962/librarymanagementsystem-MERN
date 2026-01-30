@@ -30,14 +30,13 @@ export default function Signup() {
     try {
       const endpoint = role === "admin" ? "admin/register" : "student/register";
       const payload = role === "admin"
-        ? { username: formData.username, password: formData.password, role: "admin" }
+         ? { username: formData.username, password: formData.password }
         : {
             name: formData.name,
             email: formData.email,
             rollNo: formData.rollNo,
             department: formData.department,
             password: formData.password,
-            role: "student",
           };
 
       const response = await axios.post(`${API_URL}/api/auth/${endpoint}`, payload);
@@ -46,7 +45,7 @@ export default function Signup() {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", role);
         alert(`${role === "admin" ? "Admin" : "Student"} registered successfully!`);
-        navigate("/dashboard");
+        navigate(role === "admin" ? "/admin-dashboard" : "/student-dashboard");
       }
     } catch (err) {
       if (err.code === "ERR_NETWORK") {

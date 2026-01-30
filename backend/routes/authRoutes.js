@@ -23,7 +23,18 @@ router.post("/admin/register", async (req, res) => {
     });
 
     await admin.save();
-    res.status(201).json({ message: "Admin registered successfully" });
+    
+    const token = jwt.sign(
+      { id: admin._id, role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    
+    res.status(201).json({ 
+      message: "Admin registered successfully",
+      token,
+      role: "admin"
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -50,7 +61,18 @@ router.post("/student/register", async (req, res) => {
     });
 
     await student.save();
-    res.status(201).json({ message: "Student registered successfully" });
+    
+    const token = jwt.sign(
+      { id: student._id, role: "student" },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    
+    res.status(201).json({ 
+      message: "Student registered successfully",
+      token,
+      role: "student"
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

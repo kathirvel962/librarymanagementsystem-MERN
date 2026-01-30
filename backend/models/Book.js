@@ -66,6 +66,27 @@ const bookSchema = new mongoose.Schema(
       enum: ["Active", "Inactive"],
       default: "Active",
     },
+    borrowedBy: [
+      {
+        studentId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Student",
+        },
+        studentName: String,
+        borrowedDate: {
+          type: Date,
+          default: Date.now,
+        },
+        dueDate: {
+          type: Date,
+          default: function() {
+            const date = new Date();
+            date.setDate(date.getDate() + 14); // 14 days borrowing period
+            return date;
+          }
+        },
+      },
+    ],
   },
   {
     timestamps: true,

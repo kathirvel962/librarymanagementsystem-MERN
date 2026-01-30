@@ -36,7 +36,7 @@ export default function Login() {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", role);
         alert(`${role === "admin" ? "Admin" : "Student"} login successful!`);
-        navigate("/dashboard");
+        navigate(role === "admin" ? "/admin-dashboard" : "/student-dashboard");
       }
     } catch (err) {
       if (err.code === "ERR_NETWORK") {

@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import LoginSelection from "./pages/LoginSelection";
 import RoleSelection from "./pages/RoleSelection";
 import AdminDashboard from "./pages/AdminDashboard";
+import StudentDashboard from "./pages/StudentDashboard";
 import "./App.css";
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         
         {/* Dashboard routes */}
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/dashboard" element={<AdminDashboard />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/dashboard" element={<Navigate to="/student-dashboard" replace />} />
         
         {/* Legacy routes for backward compatibility */}
         <Route path="/student-login" element={<Navigate to="/login?role=student" replace />} />
@@ -31,9 +33,6 @@ function App() {
     </BrowserRouter>
   );
 }
-      </Routes>
-    </BrowserRouter>
-  );
-}
 
 export default App;
+

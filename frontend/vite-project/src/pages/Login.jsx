@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { notifySuccess, notifyError } from "../utils/toast";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -35,14 +36,18 @@ export default function Login() {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", role);
-        alert(`${role === "admin" ? "Admin" : "Student"} login successful!`);
+        notifySuccess(`${role === "admin" ? "Admin" : "Student"} login successful!`);
         navigate(role === "admin" ? "/admin-dashboard" : "/student-dashboard");
       }
     } catch (err) {
       if (err.code === "ERR_NETWORK") {
-        setError("Cannot connect to server. Please make sure the backend is running.");
+        const msg = "Cannot connect to server. Please make sure the backend is running.";
+        setError(msg);
+        notifyError(msg);
       } else {
-        setError(err.response?.data?.message || "Login failed. Please try again.");
+        const msg = err.response?.data?.message || "Login failed. Please try again.";
+        setError(msg);
+        notifyError(msg);
       }
     }
   };

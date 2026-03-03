@@ -5,6 +5,7 @@
     "VITE_API_URL": "@vite_api_url"
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/:path*", "destination": "/" }
   ]
 }

@@ -5,11 +5,29 @@ require("dotenv").config();
 
 const app = express();
 
-// CORS configuration
-app.use(cors({
-  origin: "https://library-management-system.vercel.app",
-  credentials: true
-}));
+// Allowed origins for CORS
+const allowedOrigins = [
+  "https://librarymanagementsystem-mern-5vkclgd2h.vercel.app", // Production frontend
+  "http://localhost:5173",                                      // Development frontend (Vite default port)
+  "http://localhost:3000"                                       // Development frontend (alternative port)
+];
+
+// CORS configuration with dynamic origin check
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

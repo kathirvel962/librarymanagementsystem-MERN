@@ -5,6 +5,9 @@ import { notifySuccess, notifyError } from "../utils/toast";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+// Debug logging
+console.log("Login Component - API URL:", API_URL);
+
 export default function Login() {
   const [searchParams] = useSearchParams();
   const role = searchParams.get("role") || "student";
@@ -31,7 +34,10 @@ export default function Login() {
         ? { username: formData.username, password: formData.password }
         : { email: formData.email, password: formData.password };
 
-      const response = await axios.post(`${API_URL}/api/auth/${endpoint}`, payload);
+      const loginUrl = `${API_URL}/api/auth/${endpoint}`;
+      console.log("Attempting login with URL:", loginUrl);
+      
+      const response = await axios.post(loginUrl, payload);
       
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
@@ -40,6 +46,12 @@ export default function Login() {
         navigate(role === "admin" ? "/admin-dashboard" : "/student-dashboard");
       }
     } catch (err) {
+      console.error("Login error:", {
+        message: err.message,
+        code: err.code,
+        url: err.config?.url,
+        status: err.response?.status
+      });
       if (err.code === "ERR_NETWORK") {
         const msg = "Cannot connect to server. Please make sure the backend is running.";
         setError(msg);

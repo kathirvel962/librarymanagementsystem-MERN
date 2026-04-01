@@ -4,6 +4,9 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+// Debug logging
+console.log("StudentDashboard Component - API URL:", API_URL);
+
 export default function StudentDashboard() {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
